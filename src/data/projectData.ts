@@ -1,5 +1,6 @@
 export interface ProblemPoint {
   id: string;
+  index: string;
   title: string;
   description: string;
 }
@@ -66,63 +67,77 @@ export interface ScaleUpItem {
 
 export const HERO_METRICS = [
   {
-    value: '3 ثوانٍ',
-    label: 'زمن الاستجابة التلقائية',
-    sublabel: 'قطع الغاز وتفعيل التهوية قبل مرحلة الاشتعال',
+    value: '< 3.0s',
+    label: 'Autonomous Response',
+    sublabel: 'Complete gas shutoff & ventilation before ignition threshold',
   },
   {
-    value: 'أقل من 400 ج.م',
-    label: 'تكلفة تنفيذ اقتصادية',
-    sublabel: 'إجمالي تكلفة المكونات الفعلية 350 ج.م',
+    value: '350 EGP',
+    label: 'Economic BOM Cost',
+    sublabel: 'Under 400 EGP target for widespread residential adoption',
+  },
+  {
+    value: '90° Shutoff',
+    label: 'Mechanical Isolation',
+    sublabel: 'Direct SG90 servo actuation on residential gas valves',
   },
   {
     value: 'ISEF Standard',
-    label: 'معايير التحكيم الهندسي',
-    sublabel: 'تصميم مبني على اختبارات معملية موثقة',
+    label: 'Empirical Validation',
+    sublabel: 'Verified across multi-concentration lab response trials',
   },
 ];
 
 export const PROBLEM_POINTS: ProblemPoint[] = [
   {
     id: 'passive-alarm',
-    title: 'تنبيه صوتي سلبي',
-    description: 'الأجهزة المتاحة في الأسواق تطلق صوتاً تحذيرياً فقط عند اكتشاف الغاز دون أي تدخل لإيقاف الخطر.',
+    index: '01',
+    title: 'Passive Audio-Only Alerts',
+    description:
+      'Conventional commercial detectors only sound a buzzer upon detecting gas—leaving the physical leak source completely open.',
   },
   {
     id: 'human-absence',
-    title: 'غياب العنصر البشري',
-    description: 'لا فائدة من صوت الإنذار إذا كان السكان نائمين بعمق أو خارج المنزل وقت حدوث التسريب.',
+    index: '02',
+    title: 'Dependence on Human Presence',
+    description:
+      'Audible sirens are ineffective when residents are asleep, away from home, or unable to reach the main shutoff valve in time.',
   },
   {
     id: 'escalating-danger',
-    title: 'تفاقم الخطر خلال دقائق',
-    description: 'بقاء المحبس مفتوحاً يحوّل تسريب الغاز البسيط إلى كارثة اختناق أو انفجار خلال دقائق معدودة.',
+    index: '03',
+    title: 'Rapid Escalation to Ignition',
+    description:
+      'An unclosed gas line allows LPG or methane to accumulate rapidly, turning a minor leak into asphyxiation or explosion within minutes.',
   },
 ];
 
 export const CORE_INSIGHT =
-  'المشكلة الكبرى ليست في اكتشاف الغاز بالهواء، بل في عدم وجود آلية ذكية تتصرف ذاتياً فوراً.';
+  'The fundamental failure is not detecting gas in the air—it is the lack of an intelligent mechanism that acts autonomously on the spot.';
 
 export const DESIGN_CRITERIA: DesignCriterion[] = [
   {
     id: 'fast-response',
-    title: 'الاستجابة الفورية',
-    metric: '< 3 ثوانٍ',
-    description: 'قطع مصدر التسريب في زمن أقل من 3 ثوانٍ لمنع وصول تركيز الغاز لمرحلة الاشتعال.',
+    title: 'Instant Intervention',
+    metric: '< 3.0 sec',
+    description:
+      'Isolate the gas supply in under 3 seconds to prevent ambient gas concentration from reaching the lower explosive limit.',
     accent: 'orange',
   },
   {
     id: 'full-automation',
-    title: 'الأتمتة الشاملة',
-    metric: '100% ذاتي',
-    description: 'عمل النظام بدقة 100% دون الحاجة إلى تواجد أو تدخل العنصر البشري.',
+    title: 'Zero-Touch Automation',
+    metric: '100% Autonomous',
+    description:
+      'Operate with full reliability without requiring human presence, awareness, or manual intervention during an emergency.',
     accent: 'blue',
   },
   {
     id: 'economic-feasibility',
-    title: 'الجدوى الاقتصادية',
-    metric: '≤ 400 ج.م',
-    description: 'تصميم النظام بمكونات مدمجة لا تتجاوز تكلفته 400 جنيه مصري لسهولة الانتشار في كل منزل.',
+    title: 'Economic Accessibility',
+    metric: '< 400 EGP',
+    description:
+      'Engineer the entire rescue assembly using compact, off-the-shelf modules under 400 EGP for mass household deployment.',
     accent: 'emerald',
   },
 ];
@@ -130,54 +145,54 @@ export const DESIGN_CRITERIA: DesignCriterion[] = [
 export const SOLUTION_STAGES: SolutionStage[] = [
   {
     step: '01',
-    title: 'كشف التسريب',
-    detail: 'يرصد حساس MQ-2 نسبة الغاز بالهواء عبر الدخل التناظري A0 بدقة عالية.',
+    title: 'Leak Detection',
+    detail: 'MQ-2 SnO₂ sensor continuously samples ambient LPG/methane concentration via analog pin A0.',
     component: 'MQ-2 Sensor',
   },
   {
     step: '02',
-    title: 'قفل المحبس',
-    detail: 'يغلق موتور SG90 محبس الغاز الرئيسي آلياً بتدويره بزاوية 90 درجة.',
+    title: 'Valve Shutoff',
+    detail: 'SG90 high-torque micro servo rotates 90° to mechanically seal the main gas supply line.',
     component: 'SG90 Servo (90°)',
   },
   {
     step: '03',
-    title: 'طرد الغاز',
-    detail: 'تشغيل الشفاط الكهربائي فوراً عبر وحدة Relay لإخلاء الغاز المتراكم.',
+    title: 'Active Evacuation',
+    detail: 'Opto-isolated 5V Relay triggers the household exhaust fan to rapidly purge accumulated gas.',
     component: '5V Relay Control',
   },
   {
     step: '04',
-    title: 'إنذار وتأمين',
-    detail: 'إطلاق تنبيه صوتي وضوئي وإبقاء المحبس مغلقاً حتى إعادة التأمين يدوياً.',
+    title: 'Alert & Fail-Safe Lock',
+    detail: 'Audio-visual warning activates while locking the valve closed until manual safety inspection.',
     component: 'Buzzer + Fail-Safe',
   },
 ];
 
 export const FLOWCHART_STEPS = [
   {
-    step: '1',
-    title: 'قراءة الحساس',
+    step: '01',
+    title: 'Sample Sensor',
     code: 'analogRead(A0)',
-    description: 'قراءة الدخل التناظري A0 باستمرار لحساب تركيز الغاز بوحدة PPM.',
+    description: 'Continuously read analog voltage on A0 and compute gas concentration in PPM.',
   },
   {
-    step: '2',
-    title: 'فحص العتبة',
+    step: '02',
+    title: 'Threshold Check',
     code: 'if (PPM > 400)',
-    description: 'هل تجاوز تركيز الغاز عتبة الخطر 400 PPM؟ إذا كانت الإجابة لا، تستمر المراقبة.',
+    description: 'Evaluate whether concentration exceeds the 400 PPM danger threshold; otherwise keep monitoring.',
   },
   {
-    step: '3',
-    title: 'غلق المحبس',
+    step: '03',
+    title: 'Seal Valve',
     code: 'servo.write(90)',
-    description: 'تدوير محرك السيرفو لزاوية 90 درجة لقطع إمداد الغاز فوراً.',
+    description: 'Command the SG90 servo actuator to rotate 90° and cut off the gas source immediately.',
   },
   {
-    step: '4',
-    title: 'التهوية والإنذار',
+    step: '04',
+    title: 'Ventilate & Latch',
     code: 'digitalWrite(RELAY, HIGH)',
-    description: 'تفعيل الشفاط والبازر والإنذار الضوئي فوراً مع قفل النظام حتى الضبط اليدوي.',
+    description: 'Energize the exhaust fan relay and piezo buzzer while latching the valve shut until Reset.',
   },
 ];
 
@@ -185,33 +200,33 @@ export const HARDWARE_SPECS: HardwareSpec[] = [
   {
     id: 'arduino',
     name: 'Arduino UNO',
-    subtitle: 'وحدة المعالجة والتحكم',
+    subtitle: 'Central Microcontroller',
     spec: 'ATmega328P · 16 MHz',
-    detail: 'شريحة معالجة دقيقة بزمن استجابة بالأجزاء من الثانية لقراءة الحساس وإصدار أوامر الطوارئ.',
+    detail: 'Processes analog sensor telemetry in milliseconds and coordinates simultaneous shutoff and relay triggers.',
     accentColor: 'border-t-orange-600',
   },
   {
     id: 'mq2',
-    name: 'MQ-2 Sensor',
-    subtitle: 'حساس استشعار الغاز',
+    name: 'MQ-2 Gas Sensor',
+    subtitle: 'Chemiresistive Detector',
     spec: '200 – 10,000 PPM',
-    detail: 'نطاق قياس واسع يعتمد على طبقة SnO₂، مناسب بدقة للغاز الطبيعي وغاز البوتوجاز (LPG/Methane).',
+    detail: 'Tin dioxide (SnO₂) sensing layer tuned for high-sensitivity detection of Natural Gas and LPG.',
     accentColor: 'border-t-sky-600',
   },
   {
     id: 'sg90',
-    name: 'SG90 Servo',
-    subtitle: 'محرك إغلاق المحبس',
-    spec: 'عزم دوران 2.5 kg/cm',
-    detail: 'عزم دوران كافٍ لتحريك وإغلاق محابس الغاز المنزلية الصغيرة والدقيقة بزاوية 90 درجة.',
+    name: 'SG90 Servo Motor',
+    subtitle: 'Valve Actuator',
+    spec: '2.5 kg/cm Torque',
+    detail: 'Delivers sufficient mechanical torque to cleanly rotate compact residential gas ball valves by 90°.',
     accentColor: 'border-t-emerald-600',
   },
   {
     id: 'relay',
-    name: '5V Relay Control',
-    subtitle: 'وحدة عزل وتشغيل الشفاط',
-    spec: 'قدرة حتى 10A / 250V AC',
-    detail: 'يفصل الدوائر ذات الجهد العالي لتشغيل شفاطات المنزل القوية دون أي خطر أو شرارة على وحدة التحكم.',
+    name: '5V Relay Module',
+    subtitle: 'High-Voltage Isolation',
+    spec: '10A / 250V AC Rated',
+    detail: 'Galvanically isolates the 5V logic circuit from high-voltage exhaust fans to eliminate spark risks.',
     accentColor: 'border-t-indigo-600',
   },
 ];
@@ -219,115 +234,121 @@ export const HARDWARE_SPECS: HardwareSpec[] = [
 export const LAB_TEST_RESULTS: LabTestResult[] = [
   {
     id: 'test-1',
-    name: 'اختبار 1',
+    name: 'Trial 01',
     ppm: 450,
     detectionTime: 1.2,
     shutoffTime: 1.5,
     totalTime: 2.7,
-    result: 'نجاح إغلاق كلي',
+    result: 'Full Shutoff Verified',
   },
   {
     id: 'test-2',
-    name: 'اختبار 2',
+    name: 'Trial 02',
     ppm: 650,
     detectionTime: 0.8,
     shutoffTime: 1.4,
     totalTime: 2.2,
-    result: 'نجاح إغلاق كلي',
+    result: 'Full Shutoff Verified',
   },
   {
     id: 'test-3',
-    name: 'اختبار 3',
+    name: 'Trial 03',
     ppm: 900,
     detectionTime: 0.5,
     shutoffTime: 1.2,
     totalTime: 1.7,
-    result: 'نجاح إغلاق كلي',
+    result: 'Full Shutoff Verified',
   },
 ];
 
 export const COMPETITIVE_MATRIX: CompetitiveRow[] = [
   {
-    aspect: 'آلية التصرف',
-    smartRescue: 'إنقاذ متكامل يغلق المصدر آلياً ويشغّل الشفاط',
-    traditional: 'إنذار صوتي فقط دون أي تدخل لإيقاف التسريب',
+    aspect: 'Response Mechanism',
+    smartRescue: 'Integrated rescue: mechanically seals source & activates exhaust',
+    traditional: 'Passive audio siren only with zero physical intervention',
   },
   {
-    aspect: 'العمل بضمان الغياب',
-    smartRescue: 'حماية كاملة والمنزل فارغ أو أثناء نوم السكان',
-    traditional: 'تتطلب وجود شخص مستيقظ لإغلاق المحبس يدوياً',
+    aspect: 'Unattended Protection',
+    smartRescue: 'Full protection while residents are asleep or away from home',
+    traditional: 'Requires a conscious person nearby to manually close the valve',
   },
   {
-    aspect: 'سحب وتقليل الغاز',
-    smartRescue: 'طرد فعّال للغاز يقلل خطورة الاختناق والانفجار',
-    traditional: 'سلبي، يترك الغاز متراكماً داخل المكان المغلق',
+    aspect: 'Gas Dispersion',
+    smartRescue: 'Active exhaust ventilation rapidly lowers explosion risk',
+    traditional: 'Passive: allows flammable gas to keep accumulating indoors',
   },
 ];
 
 export const BOM_ITEMS: BomItem[] = [
-  { component: 'Arduino UNO Board', quantity: '1', costEgp: 180 },
-  { component: 'MQ-2 Gas Sensor Module', quantity: '1', costEgp: 60 },
-  { component: 'SG90 Servo Motor', quantity: '1', costEgp: 45 },
+  { component: 'Arduino UNO Board', quantity: '1 unit', costEgp: 180 },
+  { component: 'MQ-2 Gas Sensor Module', quantity: '1 unit', costEgp: 60 },
+  { component: 'SG90 Servo Motor', quantity: '1 unit', costEgp: 45 },
   { component: '5V Relay Module + Buzzer + LEDs', quantity: '1 set', costEgp: 65 },
 ];
 
 export const FAIL_SAFE_PROTOCOLS: FailSafeProtocol[] = [
   {
     id: 'isolation',
-    title: 'عزل الإشارة ومنع الشرر',
-    description: 'فصل الدوائر ذات الجهد العالي عبر Relay معزول لضمان عدم إحداث أي شرارة كهربائية أثناء فتح أو غلق دوائر الشفاط.',
-    tag: 'حماية كهربائية',
+    title: 'Spark-Free Signal Isolation',
+    description:
+      'High-voltage exhaust switching is isolated via an enclosed 5V relay module, preventing exposed electrical sparks near leaked gas.',
+    tag: 'Electrical Safety',
   },
   {
     id: 'backup-battery',
-    title: 'بطارية الطوارئ المستقلة',
-    description: 'تزويد النظام بتغذية مستقرة 9V/5V وبطارية احتياطية لضمان استمرار المراقبة وإغلاق المحبس حتى عند انقطاع الكهرباء.',
-    tag: 'استمرارية التشغيل',
+    title: 'Emergency Battery Backup',
+    description:
+      'Dedicated 9V/5V regulated power supply with backup battery reserve ensures uninterrupted valve actuation even during grid blackouts.',
+    tag: 'Power Resilience',
   },
   {
     id: 'manual-reset',
-    title: 'إعادة الضبط اليدوي (Reset)',
-    description: 'عدم فتح محبس الغاز مجدداً بشكل تلقائي مهما انخفض التركيز، إلا بعد الفحص البشري والتأكد التام والضغط على زر Reset.',
-    tag: 'أمان ميكانيكي',
+    title: 'Manual Reset Interlock',
+    description:
+      'Once sealed, the gas valve never reopens automatically when gas dissipates—requiring physical inspection and pressing the Reset button.',
+    tag: 'Fail-Safe Lock',
   },
 ];
 
 export const SCALE_UP_ROADMAP: ScaleUpItem[] = [
   {
     id: 'esp32-iot',
-    title: 'دمج شريحة ESP32 (IoT)',
-    description: 'إرسال إشعارات فورية وتنبيهات لحظية للهاتف المحمول عبر تطبيق خاص عند حدوث أي تسريب مع عرض القراءات عن بُعد.',
-    tag: 'إنترنت الأشياء',
+    title: 'ESP32 IoT Telemetry',
+    description:
+      'Integrate Wi-Fi/BLE connectivity via ESP32 to dispatch real-time smartphone push alerts and live PPM logs during emergencies.',
+    tag: 'Phase 01 · Connected',
   },
   {
     id: 'industrial-valve',
-    title: 'التطبيق المصنعي والتجاري',
-    description: 'تصميم محابس غاز مدمجة مصنعياً بمحركات داخلية عالية الكفاءة بدلاً من تركيب محرك خارجي على المحبس التقليدي.',
-    tag: 'التصنيع القياسي',
+    title: 'OEM Integrated Valves',
+    description:
+      'Co-engineer factory-integrated motorized gas valves rather than external servo retrofits for commercial and industrial piping.',
+    tag: 'Phase 02 · Industrial',
   },
   {
     id: 'solar-power',
-    title: 'الطاقة الشمسية الذاتية',
-    description: 'تزويد وحدة الإنقاذ بخلية شمسية صغيرة لشحن بطارية الطوارئ وجعل النظام مستقلاً تماماً عن الشبكة الكهربائية.',
-    tag: 'الاستدامة الطاقية',
+    title: 'Autonomous Solar Charging',
+    description:
+      'Pair the emergency backup battery with a compact photovoltaic trickle charger for complete independence from mains power.',
+    tag: 'Phase 03 · Off-Grid',
   },
 ];
 
 export const JUDGE_QA = [
   {
-    q: 'لماذا لا تسبب دوائر النظام شرارة كهربائية قد تشعل الغاز المتسرب؟',
-    a: 'تم تصميم دائرة التحكم بعزل كامل بين متحكم Arduino (5V) ودائرة الشفاط ذات الجهد العالي (220V AC) عبر وحدة 5V Relay معزولة بصرياً/ميكانيكياً، مما يمنع حدوث أي شرارة مكشوفة في منطقة التسريب.',
+    q: 'How does the system prevent electrical sparks from igniting leaked gas when switching the exhaust fan?',
+    a: 'The 5V Arduino logic circuit is completely isolated from the 220V AC exhaust fan circuit through an enclosed 5V relay module, eliminating exposed contact arcing in the sensing zone.',
   },
   {
-    q: 'كيف يتصرف النظام إذا انخفضت نسبة الغاز بعد إغلاق المحبس؟ هل يفتح الغاز تلقائياً؟',
-    a: 'لا، يعتمد النظام مبدأ الفشل الآمن (Fail-Safe)؛ بمجرد إغلاق المحبس بزاوية 90 درجة، يظل مغلقاً حتى يقوم المستخدم بفحص مكان التسريب والتأكد من سلامته والضغط على زر إعادة الضبط اليدوي (Reset).',
+    q: 'Does the gas valve reopen automatically once the exhaust fan clears the gas below 400 PPM?',
+    a: 'No. By Fail-Safe design, once the SG90 servo rotates 90° to seal the valve, it remains latched closed regardless of subsequent PPM drops until a technician inspects the source and presses the manual Reset button.',
   },
   {
-    q: 'ما سبب اختيار عتبة 400 PPM تحديداً لتفعيل التدخل الآلي؟',
-    a: 'تبدأ مرحلة التحذير المبكر عند 200-400 PPM لتغير جودة الهواء، بينما تُمثل 400 PPM عتبة الخطر المثالية التي تسبق الحد الأدنى للاشتعال (LEL) بهامش أمان واسع، مما يضمن الإغلاق والتهوية قبل تراكم الغاز لمستوى قابل للانفجار.',
+    q: 'Why was 400 PPM selected as the automatic shutoff threshold?',
+    a: 'Readings between 200–400 PPM trigger an early air-quality warning. Setting the hard mechanical trigger at 400 PPM leaves a wide safety margin well below the Lower Explosive Limit (LEL) of LPG and methane.',
   },
   {
-    q: 'ماذا يحدث إذا انقطعت الكهرباء عن المنزل أثناء حدوث التسريب؟',
-    a: 'النظام مزود بتغذية مستقرة 9V/5V وبطارية طوارئ احتياطية تضمن استمرار عمل الحساس ومحرك السيرفو لإغلاق المحبس فوراً دون الاعتماد على كهرباء المنزل الرئيسية.',
+    q: 'What happens if the household electricity goes out during a gas leak?',
+    a: 'The controller and actuator run on a stabilized 9V/5V rail backed up by an emergency battery pack, guaranteeing full detection and 90° valve closure independent of mains AC power.',
   },
 ];

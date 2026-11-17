@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Cairo", "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --font-sans: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-sans: "DM Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
@@ -10,6 +10,8 @@
   html {
     font-family: var(--font-sans);
     scroll-padding-top: 5rem;
+    background-color: #03050C;
+    color: #f1f5f9;
   }
 
   h1, h2, h3, h4 {
@@ -19,8 +21,23 @@
 
 /* Accessible focus ring across all interactive elements */
 :focus-visible {
-  outline: 2px solid #ea580c;
+  outline: 2px solid #3b5bff;
   outline-offset: 2px;
+}
+
+/* Subtle dark scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #03050C;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
 }
 
 /* Reduced motion compliance */
