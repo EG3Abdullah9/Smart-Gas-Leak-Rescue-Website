@@ -1,0 +1,6 @@
+{
+  "name": "نظام الإنقاذ الذكي من تسريب الغاز | Smart Gas Rescue",
+  "description": "مشروع إنقاذ هندسي (ISEF Standard) يتجاوز الإنذار السلبي إلى التدخل الآلي المباشر لإغلاق مصدر الغاز وتشغيل التهوية خلال أقل من 3 ثوانٍ — إعداد عبد الله محمد فهمي عبدالنبي.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
